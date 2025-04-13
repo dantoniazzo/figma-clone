@@ -7,6 +7,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
+      entities: '/src/entities',
+      features: '/src/features',
       widgets: '/src/widgets',
       shared: '/src/shared',
     },
