@@ -5,6 +5,7 @@ import {
   createSelectionBox,
   getSelectionBox,
   removeSelectionBoxes,
+  selectNode,
   unSelectAllNodes,
   updateSelectionBox,
 } from 'features/selection';
@@ -13,6 +14,7 @@ import { getPointerPosition } from 'features/pointer';
 import {
   createRectangle,
   finishDrawingRectangle,
+  getDrawnRectangleBox,
   updateRectangle,
 } from 'features/rectangle';
 import { LAYER_ID } from 'entities/layer';
@@ -31,7 +33,11 @@ export const Canvas = () => {
       } else if (getTool() === Tools.RECTANGLE) {
         const pointerPos = getPointerPosition();
         if (pointerPos) {
-          createRectangle(pointerPos);
+          createRectangle({ position: pointerPos });
+          const rect = getDrawnRectangleBox();
+          if (rect) {
+            selectNode(rect);
+          }
         }
       }
     }
@@ -54,7 +60,7 @@ export const Canvas = () => {
     }
   };
 
-  const handlePointerUp = (e: Konva.KonvaEventObject<PointerEvent>) => {
+  const handlePointerUp = () => {
     const stage = getStage();
     if (stage) {
       if (getSelectionBox()) {
@@ -76,7 +82,7 @@ export const Canvas = () => {
       height={window.innerHeight}
     >
       <Layer id={LAYER_ID}>
-        <Transformer />
+        <Transformer keepRatio={false} />
       </Layer>
     </Stage>
   );

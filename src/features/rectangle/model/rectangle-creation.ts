@@ -7,9 +7,9 @@ import { drawnrectangleConfig } from './rectangle.config';
 import { v4 as uuidv4 } from 'uuid';
 import { selectNode } from 'features/selection';
 
-export const getDrawnRectangleBox = (id: string) => {
+export const getDrawnRectangleBox = (id?: string) => {
   const layer = getLayer();
-  return layer?.findOne(`#${id || DRAWN_RECTANGLE_ID}`) as Konva.Rect;
+  return layer?.findOne(`#${id || DRAWN_RECTANGLE_ID}`);
 };
 
 export const createRectangle = (config: RectConfig) => {
