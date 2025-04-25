@@ -36,7 +36,7 @@ export const toolsConfig: { [key in Tools]: ToolConfig } = {
   },
   [Tools.LINE]: {
     icon: <Spline />,
-    enabled: false,
+    enabled: true,
   },
   [Tools.TEXT]: {
     icon: <ALargeSmall />,
