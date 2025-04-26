@@ -45,7 +45,12 @@ export const Canvas = () => {
       } else if (getTool() === Tools.LINE) {
         const pointerPosition = getPointerPosition();
         if (pointerPosition)
-          createLine([pointerPosition, pointerPosition, pointerPosition]);
+          createLine([
+            pointerPosition,
+            pointerPosition,
+            pointerPosition,
+            pointerPosition,
+          ]);
       }
     }
   };
