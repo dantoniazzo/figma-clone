@@ -59,13 +59,6 @@ export const Canvas = () => {
   };
 
   const handlePointerMove = (e: Konva.KonvaEventObject<PointerEvent>) => {
-    if (e.evt.type === 'touchmove') {
-      const touches = (e.evt as unknown as TouchEvent).touches;
-      if (touches.length > 1) {
-        handleTouchMove(e as unknown as Konva.KonvaEventObject<TouchEvent>);
-        return;
-      }
-    }
     const stage = getStage();
     if (stage) {
       if (e.evt.ctrlKey || e.evt.metaKey || getTool() === Tools.POINTER) {
@@ -84,14 +77,7 @@ export const Canvas = () => {
     }
   };
 
-  const handlePointerUp = (e: Konva.KonvaEventObject<PointerEvent>) => {
-    if (e.evt.type === 'touchend') {
-      const touches = (e.evt as unknown as TouchEvent).touches;
-      if (touches.length > 1) {
-        handleTouchEnd();
-        return;
-      }
-    }
+  const handlePointerUp = () => {
     const stage = getStage();
     if (stage) {
       if (getSelectionBox()) {
@@ -118,8 +104,8 @@ export const Canvas = () => {
 
   return (
     <Stage
-      /*  onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd} */
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       onWheel={handleWheel}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}

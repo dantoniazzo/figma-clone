@@ -19,7 +19,7 @@ let dragStopped = false;
 export const handleTouchMove = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
-  e.evt.preventDefault();
+  e.cancelBubble = true;
   const stage = e.target.getStage();
   if (!stage) return;
   const touch1 = e.evt.touches[0];
@@ -83,7 +83,10 @@ export const handleTouchMove = (
   }
 };
 
-export const handleTouchEnd = () => {
+export const handleTouchEnd = (
+  e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
+) => {
+  e.cancelBubble = true;
   lastDistance = 0;
   lastCenter = null;
 };
