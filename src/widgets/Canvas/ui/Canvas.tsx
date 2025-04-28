@@ -22,6 +22,7 @@ import { useRef } from 'react';
 import { createLine, drawLine, finishDrawingLine } from 'features/line';
 import { scaleStageOnScroll } from 'features/scale';
 import { moveStageOnScroll } from 'features/position';
+import { handleTouchEnd, handleTouchMove } from 'features/touch';
 
 export const Canvas = () => {
   const layerRef = useRef<Konva.Layer>(null);
@@ -103,6 +104,8 @@ export const Canvas = () => {
 
   return (
     <Stage
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       onWheel={handleWheel}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
