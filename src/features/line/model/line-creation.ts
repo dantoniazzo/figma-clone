@@ -7,7 +7,7 @@ import { getLayer } from 'entities/layer';
 import { NEW_LINE_ATTR } from '../lib';
 import { findNode } from 'entities/node';
 import { Line as LineType } from 'konva/lib/shapes/Line';
-import { getPointerPosition } from 'features/pointer';
+import { getUnscaledPointerPosition } from 'features/pointer';
 import { formatPoints } from './line.helpers';
 
 export const createLine = (points: Points) => {
@@ -32,7 +32,7 @@ export const drawLine = () => {
   if (newLineId) {
     const line = findNode(newLineId) as LineType;
     if (line) {
-      const pointerPosition = getPointerPosition();
+      const pointerPosition = getUnscaledPointerPosition();
       const points = line.points();
       if (points && pointerPosition) {
         // We need to spread an array of positions evenly create a straight line
@@ -115,7 +115,6 @@ export const finishDrawingLine = () => {
             radius: 3,
             fill: 'white',
             stroke: '#0d89e4',
-            hitStrokeWidth: 20,
             draggable: true,
             id: `${line.id()}-anchor${i}`,
           });

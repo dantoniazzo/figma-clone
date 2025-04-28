@@ -10,7 +10,7 @@ import {
   updateSelectionBox,
 } from 'features/selection';
 import { getTool, Tools } from 'widgets/Toolbar';
-import { getPointerPosition } from 'features/pointer';
+import { getUnscaledPointerPosition } from 'features/pointer';
 import {
   createRectangle,
   finishDrawingRectangle,
@@ -20,6 +20,8 @@ import {
 import { LAYER_ID } from 'entities/layer';
 import { useRef } from 'react';
 import { createLine, drawLine, finishDrawingLine } from 'features/line';
+import { scaleStageOnScroll } from 'features/scale';
+import { moveStageOnScroll } from 'features/position';
 
 export const Canvas = () => {
   const layerRef = useRef<Konva.Layer>(null);
@@ -29,12 +31,12 @@ export const Canvas = () => {
       // Whenever user has pointer down on stage we remove selection from all nodes
       unSelectAllNodes();
       if (e.evt.ctrlKey || e.evt.metaKey || getTool() === Tools.POINTER) {
-        const pointerPos = getPointerPosition();
+        const pointerPos = getUnscaledPointerPosition();
         if (pointerPos) {
           createSelectionBox(pointerPos);
         }
       } else if (getTool() === Tools.RECTANGLE) {
-        const pointerPos = getPointerPosition();
+        const pointerPos = getUnscaledPointerPosition();
         if (pointerPos) {
           createRectangle({ position: pointerPos });
           const rect = getDrawnRectangleBox();
@@ -43,7 +45,7 @@ export const Canvas = () => {
           }
         }
       } else if (getTool() === Tools.LINE) {
-        const pointerPosition = getPointerPosition();
+        const pointerPosition = getUnscaledPointerPosition();
         if (pointerPosition)
           createLine([
             pointerPosition,
@@ -59,12 +61,12 @@ export const Canvas = () => {
     const stage = getStage();
     if (stage) {
       if (e.evt.ctrlKey || e.evt.metaKey || getTool() === Tools.POINTER) {
-        const pointerPos = getPointerPosition();
+        const pointerPos = getUnscaledPointerPosition();
         if (pointerPos) {
           updateSelectionBox(pointerPos);
         }
       } else if (getTool() === Tools.RECTANGLE) {
-        const pointerPos = getPointerPosition();
+        const pointerPos = getUnscaledPointerPosition();
         if (pointerPos) {
           updateRectangle(pointerPos);
         }
@@ -89,8 +91,19 @@ export const Canvas = () => {
     }
   };
 
+  const handleWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
+    // stop default scrolling
+    e.evt.preventDefault();
+    if (e.evt.ctrlKey || e.evt.metaKey) {
+      scaleStageOnScroll(e);
+    } else {
+      moveStageOnScroll(e);
+    }
+  };
+
   return (
     <Stage
+      onWheel={handleWheel}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
