@@ -44,7 +44,6 @@ export const handleTouchMove = (
   if (!stage) return;
   const touch1 = e.evt.touches[0];
   const touch2 = e.evt.touches[1];
-  console.log("touches", e.evt.touches);
   // restore dragging if it was cancelled by multi-touch
   if (touch1 && touch2 && !stage.isDragging() && dragStopped) {
     stage.startDrag();
