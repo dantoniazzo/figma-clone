@@ -107,7 +107,8 @@ export const handleTouchEnd = (
 ) => {
   e.cancelBubble = true;
   console.log("Touch end touches: ", e.evt.touches.length);
-  if (e.evt.touches.length < 2) {
+  if (e.evt.touches.length === 0) {
+    // if there are no touches, we can call the pointer up event
     handlePointerUp();
   }
   lastDistance = 0;
