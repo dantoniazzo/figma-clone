@@ -25,6 +25,7 @@ export const handleTouchDown = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
   e.cancelBubble = true;
+  console.log("touches length: ", e.evt.touches.length);
   if (e.evt.touches.length < 2) {
     handlePointerDown(e);
     return;
