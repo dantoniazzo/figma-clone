@@ -1,6 +1,6 @@
-import Konva from 'konva';
-import { getStage, STAGE_ELEMENT_ID } from 'entities/stage';
-import { Stage, Layer, Transformer } from 'react-konva';
+import Konva from "konva";
+import { getStage, STAGE_ELEMENT_ID } from "entities/stage";
+import { Stage, Layer, Transformer } from "react-konva";
 import {
   createSelectionBox,
   getSelectionBox,
@@ -8,24 +8,25 @@ import {
   selectNode,
   unSelectAllNodes,
   updateSelectionBox,
-} from 'features/selection';
-import { getTool, Tools } from 'widgets/Toolbar';
-import { getUnscaledPointerPosition } from 'features/pointer';
+} from "features/selection";
+import { getTool, Tools } from "widgets/Toolbar";
+import { getUnscaledPointerPosition } from "features/pointer";
 import {
   createRectangle,
   finishDrawingRectangle,
   getDrawnRectangleBox,
   updateRectangle,
-} from 'features/rectangle';
-import { LAYER_ID } from 'entities/layer';
-import { useRef } from 'react';
-import { createLine, drawLine, finishDrawingLine } from 'features/line';
-import { scaleStageOnScroll } from 'features/scale';
-import { moveStageOnScroll } from 'features/position';
-import { handleTouchEnd, handleTouchMove } from 'features/touch';
+} from "features/rectangle";
+import { LAYER_ID } from "entities/layer";
+import { useRef } from "react";
+import { createLine, drawLine, finishDrawingLine } from "features/line";
+import { scaleStageOnScroll } from "features/scale";
+import { moveStageOnScroll } from "features/position";
+import { handleTouchEnd, handleTouchMove } from "features/touch";
 
 export const Canvas = () => {
   const layerRef = useRef<Konva.Layer>(null);
+
   const handlePointerDown = (e: Konva.KonvaEventObject<PointerEvent>) => {
     const isMouseOnStage = e.target === e.currentTarget;
     if (isMouseOnStage) {
@@ -59,6 +60,7 @@ export const Canvas = () => {
   };
 
   const handlePointerMove = (e: Konva.KonvaEventObject<PointerEvent>) => {
+    console.log("touches", e.evt.touches);
     const stage = getStage();
     if (stage) {
       if (e.evt.ctrlKey || e.evt.metaKey || getTool() === Tools.POINTER) {
