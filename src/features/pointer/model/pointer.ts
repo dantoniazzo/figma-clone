@@ -28,7 +28,9 @@ export const getUnscaledPointerPosition = () => {
   return unScalePosition(pointerPosition);
 };
 
-export const handlePointerDown = (e: Konva.KonvaEventObject<PointerEvent>) => {
+export const handlePointerDown = (
+  e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
+) => {
   const isMouseOnStage = e.target === e.currentTarget;
   if (isMouseOnStage) {
     // Whenever user has pointer down on stage we remove selection from all nodes
@@ -60,7 +62,9 @@ export const handlePointerDown = (e: Konva.KonvaEventObject<PointerEvent>) => {
   }
 };
 
-export const handlePointerMove = (e: Konva.KonvaEventObject<PointerEvent>) => {
+export const handlePointerMove = (
+  e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
+) => {
   const stage = getStage();
   if (stage) {
     if (e.evt.ctrlKey || e.evt.metaKey || getTool() === Tools.POINTER) {

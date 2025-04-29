@@ -5,7 +5,11 @@ import { LAYER_ID } from "entities/layer";
 import { useRef } from "react";
 import { scaleStageOnScroll } from "features/scale";
 import { moveStageOnScroll } from "features/position";
-import { handleTouchEnd, handleTouchMove } from "features/touch";
+import {
+  handleTouchDown,
+  handleTouchEnd,
+  handleTouchMove,
+} from "features/touch";
 import {
   handlePointerDown,
   handlePointerMove,
@@ -27,6 +31,7 @@ export const Canvas = () => {
 
   return (
     <Stage
+      onTouchStart={handleTouchDown}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onWheel={handleWheel}
