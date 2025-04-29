@@ -1,5 +1,5 @@
-import { KonvaEventObject, Node, NodeConfig } from 'konva/lib/Node';
-import { Position } from 'shared/model';
+import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
+import { Position } from "shared/model";
 
 const getDistance = (p1: Position, p2: Position) => {
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
@@ -16,6 +16,15 @@ let lastCenter: Position | null = null;
 let lastDistance: number | null = null;
 let dragStopped = false;
 
+export const handleTouchDown = (
+  e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
+) => {
+  e.cancelBubble = true;
+  const touch1 = e.evt.touches[0];
+  const touch2 = e.evt.touches[1];
+  if (touch1 && touch2) return;
+};
+
 export const handleTouchMove = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
@@ -24,7 +33,7 @@ export const handleTouchMove = (
   if (!stage) return;
   const touch1 = e.evt.touches[0];
   const touch2 = e.evt.touches[1];
-
+  console.log("touches", e.evt.touches);
   // restore dragging if it was cancelled by multi-touch
   if (touch1 && touch2 && !stage.isDragging() && dragStopped) {
     stage.startDrag();
