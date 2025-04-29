@@ -21,16 +21,11 @@ let lastCenter: Position | null = null;
 let lastDistance: number | null = null;
 let dragStopped = false;
 let singleTouchTimer: ReturnType<typeof setTimeout> | null = null;
-let pendingSingleTouchEvent: KonvaEventObject<
-  TouchEvent,
-  Node<NodeConfig>
-> | null = null;
 
 const processSingleTouch = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
   handlePointerDown(e);
-  pendingSingleTouchEvent = null;
 };
 
 export const handleTouchDown = (
@@ -47,11 +42,7 @@ export const handleTouchDown = (
 
   if (e.evt.touches.length < 2) {
     // Store the single touch event and set a timer
-    pendingSingleTouchEvent = e;
     singleTouchTimer = setTimeout(() => processSingleTouch(e), 300);
-  } else {
-    // If we have a multi-touch event, clear the pending single touch
-    pendingSingleTouchEvent = null;
   }
 };
 
@@ -138,7 +129,6 @@ export const handleTouchEnd = (
     if (singleTouchTimer) {
       clearTimeout(singleTouchTimer);
       singleTouchTimer = null;
-      pendingSingleTouchEvent = null;
     }
   }
   lastDistance = 0;
