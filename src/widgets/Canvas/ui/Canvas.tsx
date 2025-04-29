@@ -60,7 +60,7 @@ export const Canvas = () => {
   };
 
   const handlePointerMove = (e: Konva.KonvaEventObject<PointerEvent>) => {
-    console.log("touches", (e.evt as unknown as TouchEvent).touches);
+    console.log("event", e);
     const stage = getStage();
     if (stage) {
       if (e.evt.ctrlKey || e.evt.metaKey || getTool() === Tools.POINTER) {
