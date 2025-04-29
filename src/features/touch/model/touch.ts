@@ -1,4 +1,8 @@
-import { handlePointerDown, handlePointerMove } from "features/pointer";
+import {
+  handlePointerDown,
+  handlePointerMove,
+  handlePointerUp,
+} from "features/pointer";
 import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
 import { Position } from "shared/model";
 
@@ -102,6 +106,10 @@ export const handleTouchEnd = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
   e.cancelBubble = true;
+
+  if (e.evt.touches.length < 2) {
+    handlePointerUp();
+  }
   lastDistance = 0;
   lastCenter = null;
 };
