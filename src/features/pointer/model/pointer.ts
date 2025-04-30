@@ -1,5 +1,5 @@
-import Konva from "konva";
-import { getStage } from "entities/stage";
+import Konva from 'konva';
+import { getStage } from 'entities/stage';
 import {
   createSelectionBox,
   getSelectionBox,
@@ -7,16 +7,17 @@ import {
   selectNode,
   unSelectAllNodes,
   updateSelectionBox,
-} from "features/selection";
-import { getTool, Tools } from "widgets/Toolbar";
+} from 'features/selection';
+import { getTool, Tools } from 'widgets/Toolbar';
 import {
   createRectangle,
   finishDrawingRectangle,
   getDrawnRectangleBox,
   updateRectangle,
-} from "features/rectangle";
-import { createLine, drawLine, finishDrawingLine } from "features/line";
-import { unScalePosition } from "features/scale";
+} from 'features/rectangle';
+import { createLine, drawLine, finishDrawingLine } from 'features/line';
+import { unScalePosition } from 'features/scale';
+import { handleDragEnd, handleDragStart } from 'features/hand';
 
 export const getPointerPosition = () => {
   return getStage()?.getPointerPosition();
@@ -31,6 +32,9 @@ export const getUnscaledPointerPosition = () => {
 export const handlePointerDown = (
   e: Konva.KonvaEventObject<MouseEvent | TouchEvent>
 ) => {
+  if (getTool() === Tools.HAND) {
+    handleDragStart();
+  }
   const isMouseOnStage = e.target === e.currentTarget;
   if (isMouseOnStage) {
     // Whenever user has pointer down on stage we remove selection from all nodes
@@ -88,6 +92,9 @@ export const handlePointerUp = () => {
   if (stage) {
     if (getSelectionBox()) {
       removeSelectionBoxes();
+    }
+    if (getTool() === Tools.HAND) {
+      handleDragEnd();
     }
     if (getTool() === Tools.RECTANGLE) {
       finishDrawingRectangle();

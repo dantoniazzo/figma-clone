@@ -52,3 +52,23 @@ export const disableHandTool = () => {
   disableStageDragging();
   enableDraggableNodes();
 };
+
+export const handleDragStart = () => {
+  const stageElement = getStageElement();
+  if (!stageElement) return;
+  stageElement.style.cursor = 'grabbing';
+  stageElement.style.cursor = '-webkit-grabbing';
+  stageElement.style.cursor = '-moz-grabbing';
+  stageElement.style.cursor = '-ms-grabbing';
+  stageElement.style.cursor = '-o-grabbing';
+};
+
+export const handleDragEnd = () => {
+  const stageElement = getStageElement();
+  if (!stageElement) return;
+  stageElement.style.cursor = 'grab';
+  stageElement.style.cursor = '-webkit-grab';
+  stageElement.style.cursor = '-moz-grab';
+  stageElement.style.cursor = '-ms-grab';
+  stageElement.style.cursor = '-o-grab';
+};

@@ -1,20 +1,20 @@
-import Konva from "konva";
-import { STAGE_ELEMENT_ID } from "entities/stage";
-import { Stage, Layer, Transformer } from "react-konva";
-import { LAYER_ID } from "entities/layer";
-import { useRef } from "react";
-import { scaleStageOnScroll } from "features/scale";
-import { moveStageOnScroll } from "features/position";
+import Konva from 'konva';
+import { STAGE_ELEMENT_ID } from 'entities/stage';
+import { Stage, Layer, Transformer } from 'react-konva';
+import { LAYER_ID } from 'entities/layer';
+import { useRef } from 'react';
+import { scaleStageOnScroll } from 'features/scale';
+import { moveStageOnScroll } from 'features/position';
 import {
   handleTouchDown,
   handleTouchEnd,
   handleTouchMove,
-} from "features/touch";
+} from 'features/touch';
 import {
   handlePointerDown,
   handlePointerMove,
   handlePointerUp,
-} from "features/pointer";
+} from 'features/pointer';
 
 export const Canvas = () => {
   const layerRef = useRef<Konva.Layer>(null);

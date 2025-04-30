@@ -1,6 +1,7 @@
 import { Tools, toolsConfig } from '../model/tools.config';
 import { useEffect, useState } from 'react';
 import {
+  getTool,
   getToolbarElement,
   getToolbarId,
   TOOL_ATTR_NAME,
@@ -12,11 +13,31 @@ import { disableHandTool, enableHandTool } from 'features/hand';
 export const Toolbar = () => {
   const [currentTool, setCurentTool] = useState(Tools.POINTER);
 
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === ' ' && getTool() !== Tools.HAND) {
+      handleToolSelection(Tools.HAND);
+    }
+  };
+
+  const handleKeyup = (e: KeyboardEvent) => {
+    if (e.key === ' ' && getTool() === Tools.HAND) {
+      handleToolSelection(Tools.POINTER);
+    }
+  };
+
   useEffect(() => {
     const toolbar = getToolbarElement();
     if (toolbar) {
       setDataAttribute(toolbar, TOOL_ATTR_NAME, currentTool);
     }
+
+    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keyup', handleKeyup);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keyup', handleKeyup);
+    };
   }, []);
 
   const handleToolSelection = (tool: Tools) => {

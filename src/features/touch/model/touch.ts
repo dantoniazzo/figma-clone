@@ -105,7 +105,6 @@ export const handleTouchEnd = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
   e.cancelBubble = true;
-  console.log('Touch end touches: ', e.evt.touches.length);
   if (e.evt.touches.length === 0) {
     // if there are no touches, we can call the pointer up event
     handlePointerUp();

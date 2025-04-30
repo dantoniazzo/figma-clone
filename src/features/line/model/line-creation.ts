@@ -9,6 +9,7 @@ import { findNode } from 'entities/node';
 import { Line as LineType } from 'konva/lib/shapes/Line';
 import { getUnscaledPointerPosition } from 'features/pointer';
 import { formatPoints } from './line.helpers';
+import { getTool, Tools } from 'widgets';
 
 export const createLine = (points: Points) => {
   const id = uuidv4();
@@ -121,6 +122,7 @@ export const finishDrawingLine = () => {
             name: LINE_ANCHOR_NAME,
           });
           anchor.on('pointerover', (e) => {
+            if (getTool() === Tools.HAND) return;
             e.target.to({
               scaleX: 1.5,
               scaleY: 1.5,
@@ -167,9 +169,6 @@ export const finishDrawingLine = () => {
                 e.target.y(),
               ]);
             }
-          });
-          anchor.on('mousedown', (e) => {
-            e.cancelBubble = true;
           });
           lineGroup.add(anchor);
         });
