@@ -2,7 +2,7 @@ import Konva from 'konva';
 import { Position } from 'shared/model';
 import { RectConfig } from 'konva/lib/shapes/Rect';
 import { getLayer } from 'entities/layer';
-import { DRAWN_RECTANGLE_ID } from '../lib';
+import { DRAWN_RECTANGLE_ID, RECTANGLE_NAME } from '../lib';
 import { drawnrectangleConfig } from './rectangle.config';
 import { v4 as uuidv4 } from 'uuid';
 import { selectNode } from 'features/selection';
@@ -20,6 +20,7 @@ export const createRectangle = (config: RectConfig) => {
     ...drawnrectangleConfig,
     ...config,
     draggable: true,
+    name: RECTANGLE_NAME,
   });
 
   // Store the initial position as custom attribute

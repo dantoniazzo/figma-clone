@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { LineConfig } from './line.config';
 import { getStage } from 'entities/stage';
 import { getLayer } from 'entities/layer';
-import { NEW_LINE_ATTR } from '../lib';
+import { LINE_GROUP_NAME, NEW_LINE_ATTR } from '../lib';
 import { findNode } from 'entities/node';
 import { Line as LineType } from 'konva/lib/shapes/Line';
 import { getUnscaledPointerPosition } from 'features/pointer';
@@ -64,6 +64,7 @@ export const finishDrawingLine = () => {
       if (points) {
         const lineGroup = new Konva.Group({
           draggable: true,
+          name: LINE_GROUP_NAME,
         });
         const shape = new Konva.Shape({
           id: line.id(),

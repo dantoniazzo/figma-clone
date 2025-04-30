@@ -1,5 +1,6 @@
 import {
   MousePointer2,
+  Hand,
   Pencil,
   Square,
   Spline,
@@ -8,6 +9,7 @@ import {
 } from 'lucide-react';
 
 export enum Tools {
+  HAND = 'hand',
   POINTER = 'pointer',
   PENCIL = 'pencil',
   RECTANGLE = 'rectangle',
@@ -22,6 +24,10 @@ export interface ToolConfig {
 }
 
 export const toolsConfig: { [key in Tools]: ToolConfig } = {
+  [Tools.HAND]: {
+    icon: <Hand />,
+    enabled: true,
+  },
   [Tools.POINTER]: {
     icon: <MousePointer2 />,
     enabled: true,
