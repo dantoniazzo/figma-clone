@@ -2,9 +2,9 @@ import {
   handlePointerDown,
   handlePointerMove,
   handlePointerUp,
-} from "features/pointer";
-import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
-import { Position } from "shared/model";
+} from 'features/pointer';
+import { KonvaEventObject, Node, NodeConfig } from 'konva/lib/Node';
+import { Position } from 'shared/model';
 
 const getDistance = (p1: Position, p2: Position) => {
   return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
@@ -25,7 +25,6 @@ export const handleTouchDown = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
   e.cancelBubble = true;
-  console.log("touches length: ", e.evt.touches.length);
   if (e.evt.touches.length < 2) {
     handlePointerDown(e);
     return;
@@ -106,7 +105,7 @@ export const handleTouchEnd = (
   e: KonvaEventObject<TouchEvent, Node<NodeConfig>>
 ) => {
   e.cancelBubble = true;
-  console.log("Touch end touches: ", e.evt.touches.length);
+  console.log('Touch end touches: ', e.evt.touches.length);
   if (e.evt.touches.length === 0) {
     // if there are no touches, we can call the pointer up event
     handlePointerUp();
