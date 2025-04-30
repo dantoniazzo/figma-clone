@@ -1,5 +1,5 @@
 import { getLayer } from 'entities/layer';
-import { LINE_GROUP_NAME } from 'features/line';
+import { LINE_ANCHOR_NAME, LINE_GROUP_NAME } from 'features/line';
 import { RECTANGLE_NAME } from 'features/rectangle';
 
 export const findNode = (id: string) => {
@@ -18,5 +18,6 @@ export const getAllNodes = () => {
 
   const rectNodes = layer.find(`.${RECTANGLE_NAME}`);
   const lineNodes = layer.find(`.${LINE_GROUP_NAME}`);
-  return rectNodes.concat(lineNodes);
+  const lineAnchors = layer.find(`.${LINE_ANCHOR_NAME}`);
+  return rectNodes.concat(lineNodes).concat(lineAnchors);
 };

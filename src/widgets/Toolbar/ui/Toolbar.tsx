@@ -7,6 +7,7 @@ import {
 } from '../lib/toolbar.element';
 import { setDataAttribute } from 'shared/model';
 import { ToolbarButton } from './ToolbarButton';
+import { disableHandTool, enableHandTool } from 'features/hand';
 
 export const Toolbar = () => {
   const [currentTool, setCurentTool] = useState(Tools.POINTER);
@@ -23,6 +24,12 @@ export const Toolbar = () => {
     if (!toolbar) return;
     setDataAttribute(toolbar, TOOL_ATTR_NAME, tool);
     setCurentTool(tool);
+
+    if (tool === Tools.HAND) {
+      enableHandTool();
+    } else {
+      disableHandTool();
+    }
   };
 
   return (
