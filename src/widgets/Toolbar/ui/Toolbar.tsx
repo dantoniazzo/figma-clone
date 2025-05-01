@@ -59,7 +59,6 @@ export const Toolbar = () => {
       className="absolute bottom-5 left-1/2 -translate-x-1/2 flex align-middle justify-between bg-gray-500 p-2 rounded-lg shadow-lg gap-2"
     >
       {Object.values(Tools).map((tool) => {
-        if (tool === Tools.HAND) return null;
         return (
           <ToolbarButton
             key={tool}
