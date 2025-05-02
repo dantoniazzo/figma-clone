@@ -1,6 +1,6 @@
-import { getStage } from 'entities/stage';
-import { KonvaEventObject, Node, NodeConfig } from 'konva/lib/Node';
-import { Position } from 'shared/model';
+import { getStage } from "entities/stage";
+import { KonvaEventObject, Node, NodeConfig } from "konva/lib/Node";
+import { Position } from "shared/model";
 
 const scaleBy = 1.05;
 
@@ -45,5 +45,15 @@ export const unScalePosition = (position: Position) => {
   return {
     x: position.x / stageScaleX - stage.x() / stageScaleX,
     y: position.y / stageScaleX - stage.y() / stageScaleX,
+  };
+};
+
+export const reScalePosition = (position: Position) => {
+  const stage = getStage();
+  const stageScaleX = stage?.scaleX();
+  if (!stage || !stageScaleX) return;
+  return {
+    x: (position.x + stage.x() / stageScaleX) * stageScaleX,
+    y: (position.y + stage.y() / stageScaleX) * stageScaleX,
   };
 };

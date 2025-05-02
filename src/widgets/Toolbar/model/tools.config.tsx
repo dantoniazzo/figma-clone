@@ -4,7 +4,7 @@ import {
   Pencil,
   Square,
   Spline,
-  ALargeSmall,
+  Type,
   Frame,
 } from 'lucide-react';
 
@@ -45,8 +45,8 @@ export const toolsConfig: { [key in Tools]: ToolConfig } = {
     enabled: true,
   },
   [Tools.TEXT]: {
-    icon: <ALargeSmall />,
-    enabled: false,
+    icon: <Type />,
+    enabled: true,
   },
   [Tools.FRAME]: {
     icon: <Frame />,
