@@ -78,24 +78,21 @@ export const handlePointerDown = (
       editorContainer.style.top = `${getPointerPosition()?.y}px`;
       editorContainer.style.left = `${getPointerPosition()?.x}px`;
       editorContainer.style.height = "80px";
-      editorContainer.style.transform = `scaleX(${getStage()?.scaleX()}) scaleY(${getStage()?.scaleY()})`;
-      editorContainer.innerHTML = `
-  That is <u>some</u> <span style="color: red"> styled text</span> on
-  <strong>canvas</strong>!
-  <h2>What do you think about it?</h2>
-`;
+      editorContainer.style.transformOrigin = "top left";
+      editorContainer.style.transform = `scale(${getStage()?.scaleX()}, ${getStage()?.scaleY()})`;
       document.body.appendChild(editorContainer);
 
-      new Quill("#editor-container", {
+      const quill = new Quill("#editor-container", {
         modules: {
-          toolbar: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline"],
-            ["image", "code-block"],
-          ],
+          toolbar: {
+            container: null,
+          },
         },
         placeholder: "Compose an epic...",
         theme: "snow",
+      });
+      setTimeout(() => {
+        quill.focus();
       });
     }
   }
