@@ -18,9 +18,7 @@ import {
 import { createLine, drawLine, finishDrawingLine } from "features/line";
 import { reScalePosition, unScalePosition } from "features/scale";
 import { handleDragEnd, handleDragStart } from "features/hand";
-import Quill from "quill";
-import html2canvas from "html2canvas";
-import { getLayer } from "entities/layer";
+import { createTextNode } from "features/text";
 
 export const getPointerPosition = () => {
   return getStage()?.getPointerPosition();
@@ -72,62 +70,7 @@ export const handlePointerDown = (
           pointerPosition,
         ]);
     } else if (getTool() === Tools.TEXT) {
-      // Create editor container
-      const editorContainer = document.createElement("div");
-      editorContainer.id = "editor-container";
-      editorContainer.style.position = "absolute";
-      editorContainer.style.color = "white";
-      editorContainer.style.top = `${getPointerPosition()?.y}px`;
-      editorContainer.style.left = `${getPointerPosition()?.x}px`;
-      editorContainer.style.height = "80px";
-      editorContainer.style.transformOrigin = "top left";
-      editorContainer.style.transform = `scale(${getStage()?.scaleX()}, ${getStage()?.scaleY()})`;
-      document.body.appendChild(editorContainer);
-
-      const quill = new Quill("#editor-container", {
-        modules: {
-          toolbar: {
-            container: null,
-          },
-        },
-        placeholder: "Compose an epic...",
-        theme: "snow",
-      });
-      setTimeout(() => {
-        quill.focus();
-
-        quill.root.addEventListener("blur", async function () {
-          const qlEditor = document.querySelector(".ql-editor");
-          if (!qlEditor) return;
-          const canvas = await html2canvas(qlEditor as HTMLElement, {
-            backgroundColor: "rgba(0,0,0,0)",
-            scale: window.devicePixelRatio,
-            width: qlEditor.scrollWidth,
-            height: qlEditor.scrollHeight,
-            useCORS: true,
-            logging: false,
-            allowTaint: true,
-            imageTimeout: 0,
-            removeContainer: true,
-            y: 7,
-          });
-          const position = unScalePosition({
-            x: editorContainer.offsetLeft,
-            y: editorContainer.offsetTop,
-          });
-          const image = new Konva.Image({
-            x: position?.x,
-            y: position?.y,
-            image: canvas,
-            draggable: true,
-            scaleX: 1 / window.devicePixelRatio,
-            scaleY: 1 / window.devicePixelRatio,
-          });
-
-          getLayer()?.add(image);
-          editorContainer.remove();
-        });
-      });
+      createTextNode();
     }
   }
 };
