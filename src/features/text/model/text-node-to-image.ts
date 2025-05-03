@@ -9,6 +9,7 @@ export const convertNodeToImage = async (id: string) => {
   const qlEditor = getQlEditor(id);
   if (!editorContainer || !qlEditor) return;
   editorContainer.style.height = `${qlEditor.scrollHeight + 8}px`;
+  editorContainer.style.border = "none";
   const canvas = await html2canvas(qlEditor, {
     backgroundColor: "rgba(0, 0, 0, 0)",
     scale: window.devicePixelRatio,

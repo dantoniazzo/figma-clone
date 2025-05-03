@@ -26,6 +26,9 @@ export const createTextNode = async () => {
     placeholder: "Compose an epic...",
     theme: "snow",
   });
+
+  quill.setText("Text");
+  quill.setSelection(0, 4);
   setTimeout(() => {
     quill.focus();
     const qlEditor = getQlEditor(id);
