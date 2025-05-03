@@ -8,15 +8,10 @@ export const convertNodeToImage = async (id: string) => {
   const editorContainer = document.getElementById(id);
   const qlEditor = getQlEditor(id);
   if (!editorContainer || !qlEditor) return;
+  editorContainer.style.height = `${qlEditor.scrollHeight + 8}px`;
   const canvas = await html2canvas(qlEditor, {
-    backgroundColor: "rgba(0,0,0,0)",
+    backgroundColor: "rgba(0, 0, 0, 0)",
     scale: window.devicePixelRatio,
-    width: qlEditor.scrollWidth,
-    height: qlEditor.scrollHeight,
-    useCORS: true,
-    logging: false,
-    allowTaint: true,
-    imageTimeout: 0,
     removeContainer: true,
     y: 7,
   });

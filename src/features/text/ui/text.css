@@ -1,0 +1,10 @@
+.ql-container.ql-snow {
+    border: 1px solid var(--color-blue);
+    height: fit-content;
+}
+
+.ql-editor {
+    padding: 0;
+    color: white;
+    height: calc(100% + 7px);
+}
