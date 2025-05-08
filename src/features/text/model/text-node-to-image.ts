@@ -14,6 +14,9 @@ export const convertNodeToImage = async (id: string) => {
     backgroundColor: "rgba(0, 0, 0, 0)",
     scale: window.devicePixelRatio,
     removeContainer: true,
+    logging: false,
+    useCORS: true,
+    allowTaint: true,
     y: 7,
   });
   const position = unScalePosition({
