@@ -4,16 +4,18 @@ import { getQlEditor } from "../lib";
 import { getLayer } from "entities/layer";
 import { TextImageNode } from "../ui";
 import { getEditor } from "../ui/text-editor";
+import { getStage } from "entities/stage";
 
 export const convertNodeToImage = async (id: string) => {
   const editorContainer = document.getElementById(id);
   const qlEditor = getQlEditor(id);
   if (!editorContainer || !qlEditor) return;
-  editorContainer.style.height = `${qlEditor.scrollHeight + 8}px`;
+  editorContainer.style.height = `${qlEditor.scrollHeight}px`;
   editorContainer.style.border = "none";
+  editorContainer.style.opacity = "0";
+  editorContainer.style.transform = "none";
   const canvas = await html2canvas(qlEditor, {
     backgroundColor: "rgba(0, 0, 0, 0)",
-    scale: window.devicePixelRatio,
     removeContainer: true,
     logging: false,
     useCORS: true,
