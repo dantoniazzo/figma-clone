@@ -2,7 +2,7 @@ import { selectNode } from "features/selection";
 import Konva from "konva";
 import { Position } from "shared/model";
 import { createTextNode, InitialText } from "../model";
-import { reScalePosition, unScalePosition } from "features/scale";
+import { reScalePosition } from "features/scale";
 
 export interface TextImageNodeProps {
   id: string;
