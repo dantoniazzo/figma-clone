@@ -26,7 +26,12 @@ export const TextImageNode = (props: TextImageNodeProps) => {
     const position = { x: e.target.x(), y: e.target.y() };
     const reScaledPosition = reScalePosition(position);
     if (!reScaledPosition) return;
-    createTextNode({ id: props.id, initialText, position: reScaledPosition });
+    createTextNode({
+      id: props.id,
+      initialText,
+      position: reScaledPosition,
+      shouldDisable: true,
+    });
     e.target.remove();
   });
   return textImage;

@@ -9,15 +9,9 @@ import { Position } from "shared/model";
 import { InitialText } from "./text.types";
 import { TextEditor } from "../ui/text-editor";
 import { listenToClickOutside, removeClickOutsideListener } from "shared";
-
-export interface TextCreationProps {
-  id: string;
-  initialText: InitialText;
-  position: Position;
-}
+import { selectEverythingInEditor } from "./text-selection";
 
 export const onClickOutside = (id: string) => {
-  console.log("onClickOutside", id);
   convertNodeToImage(id);
 };
 
@@ -26,40 +20,58 @@ export const createFirstTextNode = async () => {
   const initialText = "Text";
   const pointerPosition = getPointerPosition();
   if (!pointerPosition) return;
-  createTextNode({ id, initialText, position: pointerPosition });
+  createTextNode({
+    id,
+    initialText,
+    position: pointerPosition,
+    shouldSelect: true,
+  });
 };
+export interface TextCreationProps {
+  id: string;
+  initialText: InitialText;
+  position: Position;
+  shouldSelect?: boolean;
+  shouldDisable?: boolean;
+}
 
-export const createTextNode = async ({
-  id,
-  initialText,
-  position,
-}: TextCreationProps) => {
+export const createTextNode = async (props: TextCreationProps) => {
   // Create editor container
   const editorContainer = document.createElement("div");
-  editorContainer.id = id;
+  editorContainer.id = props.id;
   editorContainer.style.position = "absolute";
-  editorContainer.style.top = `${position.y}px`;
-  editorContainer.style.left = `${position.x}px`;
+  editorContainer.style.top = `${props.position.y}px`;
+  editorContainer.style.left = `${props.position.x}px`;
   editorContainer.style.transformOrigin = "top left";
   editorContainer.style.transform = `scale(${getStage()?.scaleX()}, ${getStage()?.scaleY()})`;
   document.body.appendChild(editorContainer);
-
-  const quill = TextEditor({ id });
-  quill.disable();
-  if (typeof initialText === "string") {
-    quill.setText(initialText);
+  const quill = TextEditor({ id: props.id });
+  if (props.shouldDisable) quill.disable();
+  const onDblClick = () => {
+    quill.enable();
+    selectEverythingInEditor({ quill });
+  };
+  editorContainer.addEventListener("dblclick", onDblClick);
+  if (typeof props.initialText === "string") {
+    quill.setText(props.initialText);
   } else {
-    quill.setContents(initialText);
+    quill.setContents(props.initialText);
   }
-  quill.setSelection(0, quill.getLength());
+  if (props.shouldSelect) selectEverythingInEditor({ quill });
   setTimeout(() => {
     quill.focus();
   });
-  const qlEditor = getQlEditor(id);
+  const qlEditor = getQlEditor(props.id);
   const handleClickOutside = () => {
-    onClickOutside(id);
+    onClickOutside(props.id);
     removeClickOutsideListener(qlEditor);
+    editorContainer.removeEventListener("dblclick", onDblClick);
   };
   listenToClickOutside(qlEditor, handleClickOutside);
+  const stage = getStage();
+  if (!stage) return;
+  stage.on("xChange yChange scaleXChange scaleYChange", () => {
+    handleClickOutside();
+  });
   setTool(Tools.POINTER);
 };
