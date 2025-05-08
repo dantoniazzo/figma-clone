@@ -1,5 +1,5 @@
 import { getPointerPosition } from "features/pointer";
-import { EDITOR_CONTAINER_ID, getQlEditor } from "../lib";
+import { EDITOR_CONTAINER_ID } from "../lib";
 import { convertNodeToImage } from "./text-node-to-image";
 import { getStage } from "entities/stage";
 import { v4 as uuidv4 } from "uuid";
@@ -61,13 +61,12 @@ export const createTextNode = async (props: TextCreationProps) => {
   setTimeout(() => {
     quill.focus();
   });
-  const qlEditor = getQlEditor(props.id);
   const handleClickOutside = () => {
     onClickOutside(props.id);
-    removeClickOutsideListener(qlEditor);
+    removeClickOutsideListener(editorContainer);
     editorContainer.removeEventListener("dblclick", onDblClick);
   };
-  listenToClickOutside(qlEditor, handleClickOutside);
+  listenToClickOutside(editorContainer, handleClickOutside);
   const stage = getStage();
   if (!stage) return;
   stage.on("xChange yChange scaleXChange scaleYChange", () => {
