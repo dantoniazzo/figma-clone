@@ -4,7 +4,6 @@ import { getQlEditor } from "../lib";
 import { getLayer } from "entities/layer";
 import { TextImageNode } from "../ui";
 import { getEditor } from "../ui/text-editor";
-import { getStage } from "entities/stage";
 
 export const convertNodeToImage = async (id: string) => {
   const editorContainer = document.getElementById(id);
