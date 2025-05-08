@@ -6,9 +6,6 @@ export interface TextEditorProps {
 
 export const TextEditor = (props: TextEditorProps) => {
   const quill = new Quill(`#${props.id}`, {
-    modules: {
-      toolbar: false,
-    },
     placeholder: "Write something...",
     bounds: `#${props.id}`,
     theme: "snow",
