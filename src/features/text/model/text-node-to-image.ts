@@ -25,8 +25,13 @@ export const convertNodeToImage = async (id: string) => {
     y: editorContainer.offsetTop,
   });
   const contents = getEditor(id)?.getContents();
-  if(!contents) return;
-  const image = TextImageNode({id, position, image: canvas, initialText: contents})
+  if (!contents) return;
+  const image = TextImageNode({
+    id,
+    position,
+    image: canvas,
+    initialText: contents,
+  });
 
   getLayer()?.add(image);
   editorContainer.remove();

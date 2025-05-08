@@ -1,4 +1,3 @@
-import { selectNode } from "features/selection";
 import Konva from "konva";
 import { Position } from "shared/model";
 import { createTextNode, InitialText } from "../model";
@@ -22,13 +21,13 @@ export const TextImageNode = (props: TextImageNodeProps) => {
     scaleX: 1 / window.devicePixelRatio,
     scaleY: 1 / window.devicePixelRatio,
   });
-  textImage.on("mousedown", (e) => {
+  textImage.on("click", (e) => {
     const initialText = textImage.getAttr("initialText") as InitialText;
-    selectNode(e.target);
     const position = { x: e.target.x(), y: e.target.y() };
     const reScaledPosition = reScalePosition(position);
     if (!reScaledPosition) return;
     createTextNode({ id: props.id, initialText, position: reScaledPosition });
+    e.target.remove();
   });
   return textImage;
 };
