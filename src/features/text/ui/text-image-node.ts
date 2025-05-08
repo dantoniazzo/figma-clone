@@ -21,7 +21,7 @@ export const TextImageNode = (props: TextImageNodeProps) => {
     scaleX: 1 / window.devicePixelRatio,
     scaleY: 1 / window.devicePixelRatio,
   });
-  textImage.on("click", (e) => {
+  textImage.on("click tap", (e) => {
     const initialText = textImage.getAttr("initialText") as InitialText;
     const position = { x: e.target.x(), y: e.target.y() };
     const reScaledPosition = reScalePosition(position);
