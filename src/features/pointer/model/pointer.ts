@@ -18,7 +18,7 @@ import {
 import { createLine, drawLine, finishDrawingLine } from "features/line";
 import { reScalePosition, unScalePosition } from "features/scale";
 import { handleDragEnd, handleDragStart } from "features/hand";
-import { createTextNode } from "features/text";
+import { createFirstTextNode } from "features/text";
 
 export const getPointerPosition = () => {
   return getStage()?.getPointerPosition();
@@ -70,7 +70,7 @@ export const handlePointerDown = (
           pointerPosition,
         ]);
     } else if (getTool() === Tools.TEXT) {
-      createTextNode();
+      createFirstTextNode();
     }
   }
 };

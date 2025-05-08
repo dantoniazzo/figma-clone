@@ -1,8 +1,8 @@
-import Konva from "konva";
 import { unScalePosition } from "features/scale";
 import html2canvas from "html2canvas";
 import { getQlEditor } from "../lib";
 import { getLayer } from "entities/layer";
+import { TextImageNode } from "../ui";
 
 export const convertNodeToImage = async (id: string) => {
   const editorContainer = document.getElementById(id);
@@ -23,14 +23,7 @@ export const convertNodeToImage = async (id: string) => {
     x: editorContainer.offsetLeft,
     y: editorContainer.offsetTop,
   });
-  const image = new Konva.Image({
-    x: position?.x,
-    y: position?.y,
-    image: canvas,
-    draggable: true,
-    scaleX: 1 / window.devicePixelRatio,
-    scaleY: 1 / window.devicePixelRatio,
-  });
+  const image = TextImageNode({position, image: canvas})
 
   getLayer()?.add(image);
   editorContainer.remove();
