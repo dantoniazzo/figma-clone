@@ -1,4 +1,3 @@
-import { Delta } from "quill";
 import { getPointerPosition } from "features/pointer";
 import { EDITOR_CONTAINER_ID, getQlEditor } from "../lib";
 import { convertNodeToImage } from "./text-node-to-image";
@@ -8,10 +7,11 @@ import { v4 as uuidv4 } from "uuid";
 import "../ui/text.css";
 import { setTool, Tools } from "widgets";
 import { Position } from "shared/model";
+import { InitialText } from "./text.types";
 
 export interface TextCreationProps {
   id: string;
-  initialText: string | Delta
+  initialText: InitialText
   position: Position
 }
 

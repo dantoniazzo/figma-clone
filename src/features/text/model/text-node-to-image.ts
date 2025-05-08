@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import { getQlEditor } from "../lib";
 import { getLayer } from "entities/layer";
 import { TextImageNode } from "../ui";
+import { getEditor } from "../ui/text-editor";
 
 export const convertNodeToImage = async (id: string) => {
   const editorContainer = document.getElementById(id);
@@ -23,7 +24,9 @@ export const convertNodeToImage = async (id: string) => {
     x: editorContainer.offsetLeft,
     y: editorContainer.offsetTop,
   });
-  const image = TextImageNode({position, image: canvas})
+  const contents = getEditor(id)?.getContents();
+  if(!contents) return;
+  const image = TextImageNode({id, position, image: canvas, initialText: contents})
 
   getLayer()?.add(image);
   editorContainer.remove();
