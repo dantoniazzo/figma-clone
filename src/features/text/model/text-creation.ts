@@ -99,7 +99,7 @@ export const createTextNode = async (props: TextCreationProps) => {
       getLayer()?.add(backgroundNode);
       selectNode(backgroundNode);
     }
-  });
+  }, 100);
   const handleClickOutside = () => {
     if (mouseover && mouseover.includes("anchor")) return;
     onClickOutside(props.id);
