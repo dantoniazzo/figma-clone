@@ -78,8 +78,8 @@ export const createTextNode = async (props: TextCreationProps) => {
         id: `${EDITOR_BACKGROUND_ID}-${props.id}`,
         position: unScaledPosition,
         size: {
-          width: editorContainer.offsetWidth,
-          height: editorContainer.offsetHeight,
+          width: editorContainer.getBoundingClientRect().width,
+          height: editorContainer.getBoundingClientRect().height,
         },
       });
       observeResize(editorContainer, () => {
