@@ -1,15 +1,19 @@
 import { getPointerPosition } from "features/pointer";
-import { EDITOR_CONTAINER_ID } from "../lib";
+import { EDITOR_BACKGROUND_ID, EDITOR_CONTAINER_ID } from "../lib";
 import { convertNodeToImage } from "./text-node-to-image";
 import { getStage } from "entities/stage";
 import { v4 as uuidv4 } from "uuid";
 import "../ui/text.css";
 import { setTool, Tools } from "widgets";
-import { Position } from "shared/model";
+import { observeResize, Position } from "shared/model";
 import { InitialText } from "./text.types";
 import { TextEditor } from "../ui/text-editor";
 import { listenToClickOutside, removeClickOutsideListener } from "shared";
 import { selectEverythingInEditor } from "./text-selection";
+import { TextBackgroundNode } from "../ui";
+import { unScalePosition } from "features/scale";
+import { getLayer } from "entities/layer";
+import { selectNode } from "features/selection";
 
 export const onClickOutside = (id: string) => {
   convertNodeToImage(id);
@@ -45,6 +49,7 @@ export const createTextNode = async (props: TextCreationProps) => {
   editorContainer.style.transformOrigin = "top left";
   editorContainer.style.transform = `scale(${getStage()?.scaleX()}, ${getStage()?.scaleY()})`;
   document.body.appendChild(editorContainer);
+
   const quill = TextEditor({ id: props.id });
   if (props.shouldDisable) quill.disable();
   const onDblClick = () => {
@@ -60,6 +65,24 @@ export const createTextNode = async (props: TextCreationProps) => {
   if (props.shouldSelect) selectEverythingInEditor({ quill });
   setTimeout(() => {
     quill.focus();
+    const unScaledPosition = unScalePosition(props.position);
+    if (unScaledPosition) {
+      const backgroundNode = TextBackgroundNode({
+        id: `${EDITOR_BACKGROUND_ID}-${props.id}`,
+        position: unScaledPosition,
+        size: {
+          width: editorContainer.offsetWidth,
+          height: editorContainer.offsetHeight,
+        },
+      });
+      observeResize(editorContainer, () => {
+        backgroundNode.width(editorContainer.offsetWidth);
+        backgroundNode.height(editorContainer.offsetHeight);
+      });
+
+      getLayer()?.add(backgroundNode);
+      selectNode(backgroundNode);
+    }
   });
   const handleClickOutside = () => {
     onClickOutside(props.id);
