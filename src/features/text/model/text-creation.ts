@@ -87,7 +87,6 @@ export const createTextNode = async (props: TextCreationProps) => {
         backgroundNode.height(editorContainer.offsetHeight);
       });
       backgroundNode.on("transform", () => {
-        console.log("transform");
         const { width, height, x, y } = backgroundNode.getClientRect();
         const scaledSize = unScaleSize({ width, height });
         if (!scaledSize) return;
