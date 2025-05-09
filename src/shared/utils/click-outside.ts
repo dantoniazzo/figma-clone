@@ -3,10 +3,13 @@ const clickOutsideListeners = new WeakMap<
   (e: PointerEvent) => void
 >();
 
-export const listenToClickOutside = (el: HTMLElement, callback: () => void) => {
+export const listenToClickOutside = (
+  el: HTMLElement,
+  callback: (e: MouseEvent | TouchEvent | PointerEvent) => void
+) => {
   const fn = (e: MouseEvent | TouchEvent | PointerEvent) => {
     if (!el.contains(e.target as Node)) {
-      callback();
+      callback(e);
     }
   };
 

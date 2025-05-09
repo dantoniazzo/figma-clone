@@ -5,15 +5,17 @@ import { getStage } from "entities/stage";
 import { v4 as uuidv4 } from "uuid";
 import "../ui/text.css";
 import { setTool, Tools } from "widgets";
-import { observeResize, Position } from "shared/model";
+import { observeResize, Position, Size } from "shared/model";
 import { InitialText } from "./text.types";
 import { TextEditor } from "../ui/text-editor";
 import { listenToClickOutside, removeClickOutsideListener } from "shared";
 import { selectEverythingInEditor } from "./text-selection";
 import { TextBackgroundNode } from "../ui";
-import { unScalePosition } from "features/scale";
+import { unScalePosition, unScaleSize } from "features/scale";
 import { getLayer } from "entities/layer";
 import { selectNode } from "features/selection";
+
+let mouseover: string | null = null;
 
 export const onClickOutside = (id: string) => {
   convertNodeToImage(id);
@@ -35,6 +37,7 @@ export interface TextCreationProps {
   id: string;
   initialText: InitialText;
   position: Position;
+  size?: Size;
   shouldSelect?: boolean;
   shouldDisable?: boolean;
 }
@@ -79,12 +82,22 @@ export const createTextNode = async (props: TextCreationProps) => {
         backgroundNode.width(editorContainer.offsetWidth);
         backgroundNode.height(editorContainer.offsetHeight);
       });
-
+      backgroundNode.on("transform", () => {
+        console.log("transform");
+        const { width, height, x, y } = backgroundNode.getClientRect();
+        const scaledSize = unScaleSize({ width, height });
+        if (!scaledSize) return;
+        editorContainer.style.top = `${y}px`;
+        editorContainer.style.left = `${x}px`;
+        editorContainer.style.width = `${scaledSize.width}px`;
+        editorContainer.style.height = `${scaledSize.height}px`;
+      });
       getLayer()?.add(backgroundNode);
       selectNode(backgroundNode);
     }
   });
   const handleClickOutside = () => {
+    if (mouseover && mouseover.includes("anchor")) return;
     onClickOutside(props.id);
     removeClickOutsideListener(editorContainer);
     editorContainer.removeEventListener("dblclick", onDblClick);
@@ -92,8 +105,9 @@ export const createTextNode = async (props: TextCreationProps) => {
   listenToClickOutside(editorContainer, handleClickOutside);
   const stage = getStage();
   if (!stage) return;
-  stage.on("xChange yChange scaleXChange scaleYChange", () => {
-    handleClickOutside();
+
+  stage.on("mouseover", (e) => {
+    mouseover = e.target.attrs.name;
   });
   setTool(Tools.POINTER);
 };
