@@ -12,7 +12,6 @@ export const TextBackgroundNode = (props: TextBackgroundNodeProps) => {
     id: props.id,
     ...props.position,
     ...props.size,
-    fill: "red",
     draggable: true,
   });
 

@@ -9,16 +9,11 @@ export const convertNodeToImage = async (id: string) => {
   const editorContainer = document.getElementById(id);
   const qlEditor = getQlEditor(id);
   if (!editorContainer || !qlEditor) return;
-  editorContainer.style.height = `${qlEditor.scrollHeight}px`;
   editorContainer.style.border = "none";
   editorContainer.style.opacity = "0";
   editorContainer.style.transform = "none";
   const canvas = await html2canvas(qlEditor, {
     backgroundColor: "rgba(0, 0, 0, 0)",
-    removeContainer: true,
-    logging: false,
-    useCORS: true,
-    allowTaint: true,
     y: 7,
   });
   const position = unScalePosition({

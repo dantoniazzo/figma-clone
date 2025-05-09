@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { Position } from "shared/model";
+import { Position, Size } from "shared/model";
 import { createTextNode, InitialText } from "../model";
 import { reScalePosition } from "features/scale";
 
@@ -7,6 +7,7 @@ export interface TextImageNodeProps {
   id: string;
   initialText: InitialText;
   position?: Position;
+  size?: Size;
   image?: CanvasImageSource;
 }
 
@@ -14,8 +15,8 @@ export const TextImageNode = (props: TextImageNodeProps) => {
   const textImage = new Konva.Image({
     id: props.id,
     initialText: props.initialText,
-    x: props.position?.x,
-    y: props.position?.y,
+    ...props.position,
+    ...props.size,
     image: props.image,
     draggable: true,
     scaleX: 1 / window.devicePixelRatio,
@@ -25,10 +26,15 @@ export const TextImageNode = (props: TextImageNodeProps) => {
     const initialText = textImage.getAttr("initialText") as InitialText;
     const position = { x: e.target.x(), y: e.target.y() };
     const reScaledPosition = reScalePosition(position);
+    const size = {
+      width: textImage.width() / (1 / textImage.scaleX()),
+      height: textImage.height() / (1 / textImage.scaleY()),
+    };
     if (!reScaledPosition) return;
     createTextNode({
       id: props.id,
       initialText,
+      size,
       position: reScaledPosition,
       shouldDisable: true,
     });

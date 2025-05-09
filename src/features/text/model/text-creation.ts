@@ -49,6 +49,10 @@ export const createTextNode = async (props: TextCreationProps) => {
   editorContainer.style.position = "absolute";
   editorContainer.style.top = `${props.position.y}px`;
   editorContainer.style.left = `${props.position.x}px`;
+  if (props.size) {
+    editorContainer.style.width = `${props.size.width}px`;
+    editorContainer.style.height = `${props.size.height}px`;
+  }
   editorContainer.style.transformOrigin = "top left";
   editorContainer.style.transform = `scale(${getStage()?.scaleX()}, ${getStage()?.scaleY()})`;
   document.body.appendChild(editorContainer);
